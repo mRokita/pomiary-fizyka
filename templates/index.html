@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Pomiary czasu połączenia</title>
+    <style type="text/css">
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            text-align: center;
+        }
+
+        body {
+            font-family: "Arial";
+        }
+    </style>
+</head>
+<body>
+    <table  width="100%">
+        <thead>
+            <tr>
+                <th>Ping (ms)</th>
+                <th>Błąd bezwzględny(ms)</th>
+                <th>Błąd względny</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for measurement in measurements.data %}
+                <tr>
+                    <td>{{ measurement.ping }}</td>
+                    <td>{{ (measurements.avg - measurement.ping)|abs }}</td>
+                    <td>{{ "%f%%" % ((((measurements.avg - measurement.ping)|abs)/measurements.avg)*100) }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br />
+    <div>
+        <b>Wartość średnia: {{ measurements.avg }}ms</b><br />
+        <b>Liczba pomiarów: {{ measurements.count|int }}</b><br />
+    </div>
+    <center>
+        <img src="static/histogram.png">
+    </center>
+</body>
+</html>
